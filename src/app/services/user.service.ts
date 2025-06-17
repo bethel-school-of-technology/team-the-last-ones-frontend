@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-  baseUrl: string = 'https://api/users'; //need correct API endpoint
+  baseUrl: string = 'https://localhost:5251/api/users'; //need correct API endpoint
 
   constructor(private http: HttpClient) { }
 
@@ -22,6 +22,10 @@ export class UserService {
 
   getUserById(userId: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/user/${userId}`);
+  }
+
+  login(username: string, password: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/login`, { username, password });
   }
 
   //for future use if we want to implement user profile management

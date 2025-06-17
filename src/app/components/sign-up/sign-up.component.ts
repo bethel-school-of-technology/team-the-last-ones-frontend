@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-sign-up',
@@ -12,7 +14,7 @@ export class SignUpComponent {
   password: string = '';
 
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   signUp() {
     // Basic validation
@@ -28,6 +30,10 @@ export class SignUpComponent {
     this.email = '';
     this.password = '';
 
+  }
+
+  goToLogin() {
+    this.router.navigate(['/login']);
   }
 
 
