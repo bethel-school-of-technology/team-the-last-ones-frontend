@@ -20,7 +20,7 @@ export class UserService {
     return this.http.post(`${this.baseUrl}/login`, credentials);
   }
 
-  getUserById(userId: string): Observable<any> {
+  getUserById(userId: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/user/${userId}`);
   }
 
@@ -29,13 +29,13 @@ export class UserService {
   }
 
   //for future use if we want to implement user profile management
-  getUserProfile(userId: string): Observable<any> {
+  getUserProfile(userId: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/profile/${userId}`);
   }
-  updateUserProfile(userId: string, userData: any): Observable<any> {
+  updateUserProfile(userId: number, userData: any): Observable<any> {
     return this.http.put(`${this.baseUrl}/profile/${userId}`, userData);
   }
-  deleteUserAccount(userId: string): Observable<any> {
+  deleteUserAccount(userId: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/profile/${userId}`);
   }
 
@@ -49,7 +49,7 @@ export class UserService {
   resetPassword(email: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/reset-password`, { email });
   }
-  changePassword(userId: string, oldPassword: string, newPassword: string): Observable<any> {
+  changePassword(userId: number, oldPassword: string, newPassword: string): Observable<any> {
     return this.http.put(`${this.baseUrl}/change-password/${userId}`, { oldPassword, newPassword });
   }
 }
