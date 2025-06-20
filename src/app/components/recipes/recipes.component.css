@@ -1,0 +1,195 @@
+.recipes-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #f9f9f9;
+    padding: 1rem;
+    background-color: #f9f9f9;
+}
+
+.recipes-header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+
+}
+
+.recipes-title {
+    font-size: 2rem;
+    color: #0cc0df;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.recipes-subtitle {
+    font-size: 1.2rem;
+    color: #0cc0df;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.auth-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.icon-button img {
+    width: 32px;
+    height: 32px;
+}
+
+.meal-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.meal-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    width: 260px;
+    text-align: center;
+}
+
+.meal-card img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.meal-title {
+    color: #999;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.meal-description {
+    color: #999;
+    font-size: 0.9rem;
+}
+
+.recipes-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+    padding: 2rem 1rem 1rem;
+}
+
+.footer-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.icon-button-group {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.login-button {
+    background-color: #0cc0df;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background-color: #099db6;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.search-icon-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon-button img {
+    width: 24px;
+    height: 24px;
+}
+
+.error-message {
+    color: #0cc0df;
+    font-size: 2rem;
+    margin-top: 0.5rem;
+    text-align: center;
+    display: block;
+}
+
+.form-control {
+    color: #999;
+    font-size: 1rem;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-control::placeholder {
+    color: #95a5a6;
+    opacity: 1;
+}
+
+.form-control:focus {
+    outline: none;
+}
+
+.powered {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #999;
+}

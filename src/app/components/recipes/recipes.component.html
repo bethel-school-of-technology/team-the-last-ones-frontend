@@ -1,0 +1,46 @@
+<div class="recipes-container">
+    <div class="recipes-header">
+        <div class="auth-card">
+            <h1 class="recipes-title">Recipes</h1>
+            <p class="recipes-subtitle">Explore a variety of meals! Search a specific meal or input a ingredient and see
+                what recipes we have!</p>
+            <form (ngSubmit)="onSearch()" class="search-bar">
+                <input type="text" [(ngModel)]="searchQuery" name="searchQuery" placeholder="Search..."
+                    class="form-control" required />
+                <button type="submit" class="search-icon-button">
+                    <img src="assets/search-icon.png" alt="Search" />
+                </button>
+            </form>
+
+
+        </div>
+
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+    <div class="meal-grid">
+        <div class="meal-card" *ngFor="let meal of meals">
+            <img [src]="meal.strMealThumb" alt="{{ meal.strMeal }}" />
+            <h3 class="meal-title">{{ meal.strMeal }}</h3>
+            <p class="meal-description">{{ meal.strCategory }} | {{ meal.strArea }}</p>
+        </div>
+    </div>
+
+    <div class="recipes-footer">
+        <div class="auth-card footer-card">
+            <div class="icon-button-group">
+                <a routerLink="/profile" class="icon-button">
+                    <img src="assets/profile-icon.png" alt="Profile" />
+                </a>
+
+                <button class="login-button" (click)="goToLogin()">Login</button>
+
+                <a routerLink="/calendar" class="icon-button">
+                    <img src="assets/calendar-icon.png" alt="Calendar" />
+                </a>
+            </div>
+            <p class="powered">Powered by TheMealDB</p>
+
+        </div>
+    </div>
