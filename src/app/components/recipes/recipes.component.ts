@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { MealDbService } from 'src/app/services/mealdbservice.service';
+import { Meal } from 'src/app/models/meal';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-recipe',
@@ -6,39 +9,40 @@ import { Component } from '@angular/core';
   styleUrls: ['./recipes.component.css']
 })
 export class RecipeComponent {
-  recipe = {
-    name: '',
-    ingredients: '',
-    instructions: ''
-  };
+  searchQuery = '';
+  meals: Meal[] = [];
+  errorMessage = '';
 
-  recipes: any[] = [];
-  showForm: boolean = false;
-  searchQuery: string = '';
-
-  onSubmit() {
-    if (this.recipe.name && this.recipe.ingredients && this.recipe.instructions) {
-      // Assign a simple ID for demo purposes
-      const newRecipe = { ...this.recipe, id: Date.now() };
-      this.recipes.push(newRecipe);
-
-      // Reset form
-      this.recipe = { name: '', ingredients: '', instructions: '' };
-      this.showForm = false;
-    }
-  }
-
-  deleteRecipe(id: number) {
-    this.recipes = this.recipes.filter(recipe => recipe.id !== id);
-  }
+  constructor(private mealService: MealDbService, private router: Router) { }
 
   onSearch() {
     if (this.searchQuery.trim() !== '') {
-      const query = this.searchQuery.toLowerCase();
-      this.recipes = this.recipes.filter(recipe =>
-        recipe.name.toLowerCase().includes(query) ||
-        recipe.ingredients.toLowerCase().includes(query)
-      );
+      this.mealService.GetMealByName(this.searchQuery).subscribe({
+        next: (data) => {
+          if (data) {
+            this.meals = data;
+            this.errorMessage = '';
+          } else {
+            this.meals = [];
+            this.errorMessage = 'No recipes found.';
+          }
+        },
+        error: () => {
+          this.errorMessage = 'Error fetching recipes.';
+        }
+      });
     }
+  }
+
+  goToCalendar() {
+    this.router.navigate(['/calendar']);
+  }
+
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
+
+  goToProfile() {
+    this.router.navigate(['/profile']);
   }
 }
