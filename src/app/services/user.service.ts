@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { User } from '../models/user';
 // import { User } from '../models/user.model'; // Assuming you have a User model defined
 
 @Injectable({
@@ -8,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-  baseUrl: string = 'https://localhost:5251/api/users'; //need correct API endpoint
+  baseUrl: string = 'http://localhost:5251/api/User'; //need correct API endpoint
 
   constructor(private http: HttpClient) { }
 
