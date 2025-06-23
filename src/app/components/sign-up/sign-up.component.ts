@@ -24,7 +24,7 @@ export class SignUpComponent {
     }
 
     // backend API call can be made here to register the user
-
+    
     // Reset form fields after submission
     this.username = '';
     this.email = '';
