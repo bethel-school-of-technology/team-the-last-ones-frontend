@@ -9,6 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { RecipeComponent } from './components/recipes/recipes.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { RecipeDetailsComponent } from './components/recipe-details/recipe-details.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { RecipeComponent } from './components/recipes/recipes.component';
     SignUpComponent,
     LoginComponent,
     HomeComponent,
-    RecipeComponent
+    RecipeComponent,
+    CalendarComponent,
+    RecipeDetailsComponent
   ],
   imports: [
     BrowserModule,

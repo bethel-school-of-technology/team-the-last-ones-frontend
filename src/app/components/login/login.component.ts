@@ -11,6 +11,7 @@ export class LoginComponent {
 
   username: string = '';
   password: string = '';
+  email: string = ''; // Added email field for the login form
 
   constructor(private userService: UserService, private router: Router) { }
 
@@ -23,7 +24,7 @@ export class LoginComponent {
 
   login() {
 
-    if (!this.username || !this.password) {
+    if (!this.username || !this.password || !this.email) {
       alert('Please fill in all fields.');
       return;
     }
