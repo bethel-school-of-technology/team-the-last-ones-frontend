@@ -22,6 +22,12 @@
     font-size: 1.8rem;
 }
 
+.auth-card h1 {
+    color: #0cc0df;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
 .auth-form {
     display: flex;
     flex-direction: column;

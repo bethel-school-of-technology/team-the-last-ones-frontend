@@ -34,6 +34,28 @@ export class RecipeComponent {
     }
   }
 
+  ngOnInit() {
+    this.getAllMeals();
+  }
+
+  getAllMeals(): void {
+    const letters = 'abcdefghijklmnopqrstuvwxyz'.split('');
+
+    letters.forEach(letter => {
+      this.mealService.GetAllMealsByFirstLetter(letter).subscribe({
+        next: (data) => {
+          if (data) {
+            this.meals = [...this.meals, ...data];
+          }
+        },
+        error: () => {
+          console.warn(`No meals found for letter: ${letter}`);
+        }
+      });
+    });
+  }
+
+
   goToCalendar() {
     this.router.navigate(['/calendar']);
   }
@@ -44,5 +66,9 @@ export class RecipeComponent {
 
   goToProfile() {
     this.router.navigate(['/profile']);
+  }
+
+  goToRecipeDetails(id: string) {
+    this.router.navigate(['/recipes', id]);
   }
 }

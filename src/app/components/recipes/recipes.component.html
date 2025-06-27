@@ -1,9 +1,25 @@
+<div class="recipes-header">
+    <div class="auth-card header-card">
+        <h1 class="header-title">ARUCHA</h1>
+        <div class="icon-button-group">
+
+            <button class="login-button" (click)="goToLogin()">Login</button>
+
+            <a routerLink="/calendar" class="icon-button">
+                <img src="assets/calendar-icon.png" alt="Calendar" />
+            </a>
+            <a routerLink="/profile" class="icon-button">
+                <img src="assets/profile-icon.png" alt="Profile" />
+            </a>
+        </div>
+
+    </div>
+</div>
+
 <div class="recipes-container">
     <div class="recipes-header">
         <div class="auth-card">
             <h1 class="recipes-title">Recipes</h1>
-            <p class="recipes-subtitle">Explore a variety of meals! Search a specific meal or input a ingredient and see
-                what recipes we have!</p>
             <form (ngSubmit)="onSearch()" class="search-bar">
                 <input type="text" [(ngModel)]="searchQuery" name="searchQuery" placeholder="Search..."
                     class="form-control" required />
@@ -17,10 +33,12 @@
 
     </div>
 
+
+
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 
     <div class="meal-grid">
-        <div class="meal-card" *ngFor="let meal of meals">
+        <div class="meal-card" *ngFor="let meal of meals" (click)="goToRecipeDetails(meal.idMeal)">
             <img [src]="meal.strMealThumb" alt="{{ meal.strMeal }}" />
             <h3 class="meal-title">{{ meal.strMeal }}</h3>
             <p class="meal-description">{{ meal.strCategory }} | {{ meal.strArea }}</p>
