@@ -8,7 +8,7 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { RecipeDetailsComponent } from './components/recipe-details/recipe-details.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/recipe', pathMatch: 'full' },
+  { path: '', redirectTo: 'recipes', pathMatch: 'full' },
   { path: 'sign-up', component: SignUpComponent },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent },
