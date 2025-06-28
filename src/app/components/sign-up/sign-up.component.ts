@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
-import { UserService } from 'src/app/services/user.service';
+import { AuthorizationService } from 'src/app/services/authorization.service';
 
 
 @Component({
@@ -13,7 +13,7 @@ export class SignUpComponent {
 
 
 
-  constructor(private router: Router, private userService: UserService) { }
+  constructor(private router: Router, private authService: AuthorizationService) { }
 
   newUser: User = new User('','','');
 
@@ -28,7 +28,7 @@ export class SignUpComponent {
 
     // backend API call can be made here to register the user
 
-    this.userService.registerUser(this.newUser).subscribe({ next: (response) =>{
+    this.authService.registerUser(this.newUser).subscribe({ next: (response) =>{
       window.alert("You have successfully registered");
       this.router.navigate(['/login']);
     }, error: (error) => {
