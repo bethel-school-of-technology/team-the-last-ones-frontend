@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 
@@ -15,6 +15,7 @@ export class LoginComponent {
 
   constructor(private userService: UserService, private router: Router) { }
 
+  ngOnInt(): void{}
 
   onSubmit() {
     this.login();
@@ -32,7 +33,7 @@ export class LoginComponent {
 
 
     // Call the user service to log in
-    this.userService.login(this.username, this.password).subscribe({
+    this.userService.login(this.email, this.password).subscribe({
       next: (response) => {
         // Handle successful login
         console.log('Login successful:', response);
