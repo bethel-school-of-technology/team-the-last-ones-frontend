@@ -11,13 +11,9 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class SignUpComponent {
 
-  username: string = '';
-  email: string = '';
-  password: string = '';
-  userService: any;
 
 
-  constructor(private router: Router, userService: UserService) { }
+  constructor(private router: Router, private userService: UserService) { }
 
   newUser: User = new User('','','');
 
@@ -32,13 +28,19 @@ export class SignUpComponent {
 
     // backend API call can be made here to register the user
 
-    this.userService.registerUser(this.newUser).subscribe(() => {
+    this.userService.registerUser(this.newUser).subscribe({ next: (response) =>{
       window.alert("You have successfully registered");
       this.router.navigate(['/login']);
-    })
+    }, error: (error) => {
+      console.error('failed to register:', error);
+      alert('failed to register account');
+
+    }
+  })
   }
 
   goToLogin() {
     this.router.navigate(['/login']);
   }
+
 }
