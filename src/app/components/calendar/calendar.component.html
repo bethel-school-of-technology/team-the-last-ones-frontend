@@ -1,12 +1,13 @@
 <div class="calendar-app-container">
-
     <div class="calendar-header container mb-3">
         <div class="calendar-header-bar">
+            <div class="icon-button-group">
+                <button class="recipe-button" (click)="goToRecipesPage()">Recipes</button>
+                <a routerLink="/profile" class="icon-button">
+                    <img src="assets/profile-icon.png" alt="Profile" />
+                </a>
+            </div>
             <h2 class="calendar-title">Meal Plan for the Week</h2>
-            <!-- <div class="btn-group">
-          <button class="nav-button" (click)="goToPreviousWeek()">&larr; Previous</button>
-          <button class="nav-button" (click)="goToNextWeek()">Next &rarr;</button>
-        </div> -->
         </div>
     </div>
 
@@ -30,27 +31,24 @@
                         </div>
 
                         <div *ngIf="!isDayEmpty(day.key)">
-                            <div *ngFor="let meal of meals"
-                                class="d-flex align-items-center gap-2 mb-2 recipe-clickable"
-                                (click)="goToRecipeDetails(mealPlan[day.key][meal + '_id'])" style="cursor: pointer;">
-                                <img [src]="mealPlan[day.key][meal + '_thumb']" alt="{{ mealPlan[day.key][meal] }}"
-                                    class="rounded-circle" width="40" height="40" />
-                                <span>{{ mealPlan[day.key][meal] }}</span>
+                            <div *ngFor="let meal of meals">
+
+                                <div *ngIf="mealPlan[day.key][meal]"
+                                    class="d-flex align-items-center justify-content-between mb-2 recipe-clickable"
+                                    (click)="goToRecipeDetails(mealPlan[day.key][meal + '_id'])"
+                                    style="cursor: pointer;">
+                                    <img [src]="mealPlan[day.key][meal + '_thumb']" alt="{{ mealPlan[day.key][meal] }}"
+                                        class="rounded-circle" width="40" height="40" />
+                                    <span>{{ mealPlan[day.key][meal] }}</span>
+
+                                    <button class="btn btn-sm btn-outline-danger"
+                                        (click)="removeMeal(day.key, meal); $event.stopPropagation()">
+                                        &times;
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="calendar-footer text-center mt-auto pt-4">
-        <div class="footer-card">
-            <div class="icon-button-group">
-                <button class="profile-button" (click)="goToProfile()">
-                    <img src="assets/profile-icon.png" alt="Profile" />
-                </button>
-
-            </div>
-        </div>
-
-    </div>
