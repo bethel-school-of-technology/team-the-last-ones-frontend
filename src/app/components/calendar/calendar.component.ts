@@ -76,7 +76,9 @@ export class CalendarComponent implements OnInit {
   }
 
 
-
+  goToRecipesPage() {
+    this.router.navigate(['/recipes']);
+  }
 
   goToRecipes(dateKey: string) {
     localStorage.setItem('selectedDateKey', dateKey);
@@ -100,6 +102,12 @@ export class CalendarComponent implements OnInit {
     }
     console.log('Navigating to recipe with ID:', mealId); // Add this
     this.router.navigate(['/recipe-details', mealId]);
+  }
+
+  removeMeal(dateKey: string, meal: string) {
+    this.mealPlan[dateKey][meal] = '';
+    this.mealPlan[dateKey][meal + '_id'] = '';
+    this.mealPlan[dateKey][meal + '_thumb'] = '';
   }
 
 }

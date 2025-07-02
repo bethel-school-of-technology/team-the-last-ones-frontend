@@ -71,14 +71,19 @@ export class RecipeDetailsComponent {
   }
 
   generateWeekDates() {
-    const startOfWeek = new Date();
-    startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+    const today = new Date();
+    this.weekDates = [];
+
     for (let i = 0; i < 7; i++) {
-      const date = new Date(startOfWeek);
-      date.setDate(startOfWeek.getDate() + i);
+      const date = new Date(today);
+      date.setDate(today.getDate() + i);
       const key = date.toISOString().split('T')[0];
-      const label = date.toDateString(); // Ex: "Mon Jun 24 2025"
+      const label = date.toDateString();
       this.weekDates.push({ key, label });
+    }
+
+    if (this.weekDates.length > 0) {
+      this.selectedDay = this.weekDates[0].key;
     }
   }
 
