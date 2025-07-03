@@ -3,7 +3,7 @@ import { MealDbService } from 'src/app/services/mealdb/mealdbservice.service';
 import { Meal } from 'src/app/models/meal';
 import { Router } from '@angular/router';
 import { MPlan } from 'src/app/models/m-plan';
-import { MealsplanService } from 'src/app/services/mealsplan.service';
+import { MealsplanService } from 'src/app/services/mealsplan/mealsplan.service';
 
 @Component({
   selector: 'app-calendar',

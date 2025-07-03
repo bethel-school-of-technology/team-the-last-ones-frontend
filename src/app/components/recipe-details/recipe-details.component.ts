@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Meal } from 'src/app/models/meal';
 import { MPlan } from 'src/app/models/m-plan';
-import { MealsplanService } from 'src/app/services/mealsplan.service';
+import { MealsplanService } from 'src/app/services/mealsplan/mealsplan.service';
 
 @Component({
   selector: 'app-recipe-details',
@@ -22,6 +22,7 @@ export class RecipeDetailsComponent {
   weekDates: { key: Date; label: string }[] = [];
 
   constructor(private mealDbService: MealDbService, private router: Router, private route: ActivatedRoute, private MplanService: MealsplanService) { }
+
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
