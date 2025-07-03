@@ -3,6 +3,8 @@ import { MealDbService } from 'src/app/services/mealdb/mealdbservice.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Meal } from 'src/app/models/meal';
+import { MPlan } from 'src/app/models/m-plan';
+import { MealsplanService } from 'src/app/services/mealsplan.service';
 
 @Component({
   selector: 'app-recipe-details',
@@ -10,18 +12,16 @@ import { Meal } from 'src/app/models/meal';
   styleUrls: ['./recipe-details.component.css'],
 })
 export class RecipeDetailsComponent {
+  newMealPlan: MPlan = new MPlan();
   meal: Meal | null = null;
+  UserId: number = 1;
   ingredients: string[] = [];
   instructions: string[] = [];
-  selectedDay: string = '';
+  selectedDay: Date = new Date();
   selectedMeal: string = 'Breakfast';
-  weekDates: { key: string; label: string }[] = [];
+  weekDates: { key: Date; label: string }[] = [];
 
-  constructor(
-    private mealDbService: MealDbService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private mealDbService: MealDbService, private router: Router, private route: ActivatedRoute, private MplanService: MealsplanService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
@@ -79,8 +79,8 @@ export class RecipeDetailsComponent {
     for (let i = 0; i < 7; i++) {
       const date = new Date(today);
       date.setDate(today.getDate() + i);
-      const key = date.toISOString().split('T')[0];
-      console.log('key: ', key);
+      const key = date;
+      console.log("key: ", key);
       const label = date.toDateString();
       console.log('label: ', label);
       this.weekDates.push({ key, label });
@@ -97,22 +97,35 @@ export class RecipeDetailsComponent {
       return;
     }
 
-    const data = {
-      day: this.selectedDay,
-      meal: this.selectedMeal,
-      recipe: {
-        id: this.meal.idMeal,
-        name: this.meal.strMeal,
-        thumb: this.meal.strMealThumb,
-      },
-    };
+    // const data = {
+    //   day: this.selectedDay,
+    //   meal: this.selectedMeal,
+    //   recipe: {
+    //     id: this.meal.idMeal,
+    //     name: this.meal.strMeal,
+    //     thumb: this.meal.strMealThumb
+    //   }
+    // };
+    this.newMealPlan.date = this.selectedDay;
+    this.newMealPlan.timeOfDay = this.selectedMeal;
+    this.newMealPlan.idMeal = parseInt(this.meal.idMeal);
+    this.newMealPlan.userId = this.UserId;
+    this.MplanService.CreateMealPlan(this.newMealPlan).subscribe(() => {
+      window.alert("Plan was Successfully made");
+    }, error => {
+      console.log('Error: ', error);
+      if (error.status === 401 || error.status === 403){
+        this.router.navigate(['/login'])
+      }
+    })
 
-    const stored = localStorage.getItem('plannedRecipes');
-    const plannedRecipes = stored ? JSON.parse(stored) : [];
 
-    plannedRecipes.push(data);
+    // const stored = localStorage.getItem('plannedRecipes');
+    // const plannedRecipes = stored ? JSON.parse(stored) : [];
 
-    localStorage.setItem('plannedRecipes', JSON.stringify(plannedRecipes));
+    // plannedRecipes.push(data);
+
+    // localStorage.setItem('plannedRecipes', JSON.stringify(plannedRecipes));
 
     this.router.navigate(['/calendar']);
   }

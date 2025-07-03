@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MealDbService } from 'src/app/services/mealdb/mealdbservice.service';
 import { Meal } from 'src/app/models/meal';
 import { Router } from '@angular/router';
+import { MPlan } from 'src/app/models/m-plan';
+import { MealsplanService } from 'src/app/services/mealsplan.service';
 
 @Component({
   selector: 'app-calendar',
@@ -9,16 +11,20 @@ import { Router } from '@angular/router';
   styleUrls: ['./calendar.component.css'],
 })
 export class CalendarComponent implements OnInit {
-  meals = ['Breakfast', 'Lunch', 'Dinner'];
+  userId:number = 1;
+  meals = ["Breakfast", "Lunch", "Dinner"];
   daysOfWeek: { label: string; date: Date; key: string }[] = [];
   mealPlan: { [dateKey: string]: { [meal: string]: string } } = {};
   availableRecipes: Meal[] = [];
+  planMeals: MPlan[] = [];
 
-  constructor(private mealDbService: MealDbService, private router: Router) {}
+
+  constructor(private mealDbService: MealDbService, private router: Router, private MplanService: MealsplanService) { }
 
   ngOnInit() {
     this.currentWeek();
     this.loadPlannedRecipes();
+    this.getAllPlanMeals(this.userId);
   }
 
   currentWeek() {
@@ -103,5 +109,14 @@ export class CalendarComponent implements OnInit {
     this.mealPlan[dateKey][meal] = '';
     this.mealPlan[dateKey][meal + '_id'] = '';
     this.mealPlan[dateKey][meal + '_thumb'] = '';
+  }
+
+  getAllPlanMeals(Id: number) {
+    this.MplanService.GetAllMealsPlanByUser(Id).subscribe(result => {
+      this.planMeals = result;
+      for(let i = 0; i < this.planMeals.length; i++){
+        console.log(this.planMeals[i]);
+      }
+    })
   }
 }
