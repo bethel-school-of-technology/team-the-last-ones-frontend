@@ -39,7 +39,7 @@ export class LoginComponent {
       next: (response) => {
         // Handle successful login
         console.log('Login successful:', response);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/recipes']);
       },
       error: (error) => {
         // Handle login error

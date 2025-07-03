@@ -13,7 +13,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  registerUser(user: any): Observable<any> {
+  registerUser(user: User): Observable<User> {
     return this.http.post(`${this.baseUrl}/register`, user);
   }
 

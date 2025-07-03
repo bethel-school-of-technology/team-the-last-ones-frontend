@@ -78,7 +78,9 @@ export class RecipeDetailsComponent {
       const date = new Date(today);
       date.setDate(today.getDate() + i);
       const key = date.toISOString().split('T')[0];
+      console.log("key: ", key);
       const label = date.toDateString();
+      console.log("label: ", label)
       this.weekDates.push({ key, label });
     }
 
