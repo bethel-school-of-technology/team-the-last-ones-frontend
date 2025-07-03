@@ -15,7 +15,7 @@ export class SignUpComponent {
 
   constructor(private router: Router, private authService: AuthorizationService) { }
 
-  newUser: User = new User('','','');
+  newUser: User = new User();
 
   ngOnInit(): void {}
   

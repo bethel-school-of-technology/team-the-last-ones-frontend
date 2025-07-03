@@ -15,7 +15,7 @@ export class CalendarComponent implements OnInit {
   availableRecipes: Meal[] = [];
 
 
-  constructor(private mealDbService: MealDbService, private router: Router) { }
+  constructor(private mealDbService: MealDbService, private router: Router, ) { }
 
   ngOnInit() {
     this.currentWeek();
