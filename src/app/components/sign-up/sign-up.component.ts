@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
-import { AuthorizationService } from 'src/app/services/authorization.service';
+import { AuthorizationService } from 'src/app/services/authorization/authorization.service';
 
 
 @Component({
@@ -15,7 +15,7 @@ export class SignUpComponent {
 
   constructor(private router: Router, private authService: AuthorizationService) { }
 
-  newUser: User = new User('','','');
+  newUser: User = new User();
 
   ngOnInit(): void {}
   

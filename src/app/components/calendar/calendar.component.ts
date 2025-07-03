@@ -6,16 +6,15 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.css']
+  styleUrls: ['./calendar.component.css'],
 })
 export class CalendarComponent implements OnInit {
-  meals = ["Breakfast", "Lunch", "Dinner"];
+  meals = ['Breakfast', 'Lunch', 'Dinner'];
   daysOfWeek: { label: string; date: Date; key: string }[] = [];
   mealPlan: { [dateKey: string]: { [meal: string]: string } } = {};
   availableRecipes: Meal[] = [];
 
-
-  constructor(private mealDbService: MealDbService, private router: Router) { }
+  constructor(private mealDbService: MealDbService, private router: Router) {}
 
   ngOnInit() {
     this.currentWeek();
@@ -34,7 +33,7 @@ export class CalendarComponent implements OnInit {
       const label = date.toLocaleDateString('en-US', {
         weekday: 'short',
         month: 'short',
-        day: 'numeric'
+        day: 'numeric',
       });
 
       this.daysOfWeek.push({ label, date, key });
@@ -68,13 +67,9 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-
   isDayEmpty(dateKey: string): boolean {
-    return this.meals.every(
-      (meal) => !this.mealPlan[dateKey][meal]
-    );
+    return this.meals.every((meal) => !this.mealPlan[dateKey][meal]);
   }
-
 
   goToRecipesPage() {
     this.router.navigate(['/recipes']);
@@ -109,5 +104,4 @@ export class CalendarComponent implements OnInit {
     this.mealPlan[dateKey][meal + '_id'] = '';
     this.mealPlan[dateKey][meal + '_thumb'] = '';
   }
-
 }
