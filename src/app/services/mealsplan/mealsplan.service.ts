@@ -17,13 +17,13 @@ export class MealsplanService {
     return this.auth.GetToken();
   }
 
-  GetAllMealsPlanByUser(Id: number): Observable<any> {
+  GetAllMealsPlanByUser(Id: number): Observable<MPlan[]> {
     let token = this.GetToken();
     let reqHeaders = {
       Authorization: `Bearer ${token}`
     };
     console.log(`Attempting with token ${token}`);
-    return this.http.get<{ meals: any }>(`${this.baseUrl}/${Id}`, { headers: reqHeaders});
+    return this.http.get<MPlan[]>(`${this.baseUrl}/${Id}`, { headers: reqHeaders});
   }
 
   CreateMealPlan(meal: MPlan) {

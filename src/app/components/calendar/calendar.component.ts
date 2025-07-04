@@ -13,7 +13,7 @@ interface DaysOfWeek {
 }
 
 // possible meals for the day
-type MealType = "Breakfast" | "Lunch" | "Dinner";
+type MealType = 'Breakfast' | 'Lunch' | 'Dinner';
 
 // data stored for a single meal slot on the calendar
 interface PlannedMealSlot {
@@ -25,12 +25,12 @@ interface PlannedMealSlot {
 // a map of the meals for a single day
 type DailyMealPlan = {
   [key in MealType]?: PlannedMealSlot;
-}
+};
 
 // a map of all days in the calendar
 type WeeklyMealPlan = {
   [dateKey: string]: DailyMealPlan;
-}
+};
 
 @Component({
   selector: 'app-calendar',
@@ -38,16 +38,20 @@ type WeeklyMealPlan = {
   styleUrls: ['./calendar.component.css'],
 })
 export class CalendarComponent implements OnInit {
-  userId:number = 1;
-  meals: MealType[] = ["Breakfast", "Lunch", "Dinner"]; 
+  userId: number = 1;
+  meals: MealType[] = ['Breakfast', 'Lunch', 'Dinner'];
   daysOfWeek: DaysOfWeek[] = [];
   // mealPlan: { [dateKey: string]: { [meal: string]: string } } = {};
   mealPlan: WeeklyMealPlan = {};
   availableRecipes: Meal[] = [];
   planMeals: MPlan[] = [];
 
-
-  constructor(private mealDbService: MealDbService, private router: Router, private MplanService: MealsplanService, private auth: AuthorizationService) { }
+  constructor(
+    private mealDbService: MealDbService,
+    private router: Router,
+    private MplanService: MealsplanService,
+    private auth: AuthorizationService
+  ) {}
 
   ngOnInit() {
     this.userId = this.auth.GetUserId();
@@ -103,7 +107,7 @@ export class CalendarComponent implements OnInit {
     const dailyMealPlan = this.mealPlan[dateKey];
     if (!dailyMealPlan) return true;
 
-    return Object.values(dailyMealPlan).every(slot => slot === undefined);
+    return Object.values(dailyMealPlan).every((slot) => slot === undefined);
   }
 
   goToRecipesPage() {
@@ -125,7 +129,7 @@ export class CalendarComponent implements OnInit {
     this.router.navigate(['/profile']);
   }
 
-  goToRecipeDetails(mealId: number|undefined) {
+  goToRecipeDetails(mealId: number | undefined) {
     if (!mealId) {
       console.error('Missing meal ID');
       return;
@@ -142,11 +146,9 @@ export class CalendarComponent implements OnInit {
 
   getAllPlanMeals(Id: number) {
     // TODO: Uncomment
-    this.MplanService.GetAllMealsPlanByUser(Id).subscribe(result => {
+    this.MplanService.GetAllMealsPlanByUser(Id).subscribe((result) => {
       this.planMeals = result;
-      // for(let i = 0; i < this.planMeals.length; i++){
-      //   console.log(this.planMeals[i]);
-      // }
-    })
+      console.log(this.planMeals);
+    });
   }
 }
