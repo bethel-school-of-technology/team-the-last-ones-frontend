@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../../models/user';
-import { Observable, tap } from 'rxjs';
+import { tap } from 'rxjs';
+import { jwtDecode } from "jwt-decode";
 
 @Injectable({
   providedIn: 'root',
@@ -39,6 +40,12 @@ export class AuthorizationService {
   }
 
   GetUserId(): number {
+    const token = this.GetToken();
+    if (token) {
+      const decoded: any = jwtDecode(token);
+      console.log(decoded);
+      return parseInt(decoded.sub);
+    }
     return -1;
   }
 }
