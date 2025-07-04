@@ -33,4 +33,8 @@ export class AuthorizationService {
         })
       );
   }
+
+  GetToken(): string {
+    return this.token;
+  }
 }

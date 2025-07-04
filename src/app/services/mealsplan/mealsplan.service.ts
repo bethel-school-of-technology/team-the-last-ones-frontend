@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Meal } from '../../models/meal';
 import { MPlan } from '../../models/m-plan';
+import { AuthorizationService } from '../authorization/authorization.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,10 +11,10 @@ import { MPlan } from '../../models/m-plan';
 export class MealsplanService {
   baseUrl = 'http://localhost:5251/api/Meals';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private auth: AuthorizationService) {}
 
   private GetToken(): string | null {
-    return localStorage.getItem("myAppToken");
+    return this.auth.GetToken();
   }
 
   GetAllMealsPlanByUser(Id: number): Observable<any> {
