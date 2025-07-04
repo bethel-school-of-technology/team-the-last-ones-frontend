@@ -8,7 +8,7 @@ import { Observable, tap } from 'rxjs';
 })
 export class AuthorizationService {
   baseUrl: string = 'http://localhost:5251/api/auth';
-  token: string = 'myAppToken';
+  tokenKey: string = 'myAppToken';
 
   constructor(private http: HttpClient) {}
 
@@ -28,13 +28,17 @@ export class AuthorizationService {
       })
       .pipe(
         tap((response: any) => {
-          localStorage.setItem(this.token, response);
-          console.log(`${this.token}: ${response}`);
+          localStorage.setItem(this.tokenKey, response);
+          console.log(`${this.tokenKey}: ${response}`);
         })
       );
   }
 
-  GetToken(): string {
-    return this.token;
+  GetToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
+  }
+
+  GetUserId(): number {
+    return -1;
   }
 }
