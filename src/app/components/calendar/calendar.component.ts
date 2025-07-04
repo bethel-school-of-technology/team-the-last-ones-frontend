@@ -4,6 +4,7 @@ import { Meal } from 'src/app/models/meal';
 import { Router } from '@angular/router';
 import { MPlan } from 'src/app/models/m-plan';
 import { MealsplanService } from 'src/app/services/mealsplan/mealsplan.service';
+import { AuthorizationService } from 'src/app/services/authorization/authorization.service';
 
 @Component({
   selector: 'app-calendar',
@@ -19,9 +20,10 @@ export class CalendarComponent implements OnInit {
   planMeals: MPlan[] = [];
 
 
-  constructor(private mealDbService: MealDbService, private router: Router, private MplanService: MealsplanService) { }
+  constructor(private mealDbService: MealDbService, private router: Router, private MplanService: MealsplanService, private auth: AuthorizationService) { }
 
   ngOnInit() {
+    this.userId = this.auth.GetUserId();
     this.currentWeek();
     this.loadPlannedRecipes();
     this.getAllPlanMeals(this.userId);
