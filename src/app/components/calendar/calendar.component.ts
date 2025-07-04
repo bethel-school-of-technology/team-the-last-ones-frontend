@@ -6,6 +6,12 @@ import { MPlan } from 'src/app/models/m-plan';
 import { MealsplanService } from 'src/app/services/mealsplan/mealsplan.service';
 import { AuthorizationService } from 'src/app/services/authorization/authorization.service';
 
+interface DaysOfWeek {
+  label: string;
+  date: Date;
+  key: string;
+}
+
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -14,7 +20,7 @@ import { AuthorizationService } from 'src/app/services/authorization/authorizati
 export class CalendarComponent implements OnInit {
   userId:number = 1;
   meals = ["Breakfast", "Lunch", "Dinner"];
-  daysOfWeek: { label: string; date: Date; key: string }[] = [];
+  daysOfWeek: DaysOfWeek[] = [];
   mealPlan: { [dateKey: string]: { [meal: string]: string } } = {};
   availableRecipes: Meal[] = [];
   planMeals: MPlan[] = [];
