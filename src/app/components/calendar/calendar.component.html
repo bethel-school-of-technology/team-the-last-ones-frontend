@@ -35,9 +35,9 @@
 
                                 <div *ngIf="mealPlan[day.key][meal]"
                                     class="d-flex align-items-center justify-content-between mb-2 recipe-clickable"
-                                    (click)="goToRecipeDetails(mealPlan[day.key][meal + '_id'])"
+                                    (click)="goToRecipeDetails(mealPlan[day.key][meal]?.id)"
                                     style="cursor: pointer;">
-                                    <img [src]="mealPlan[day.key][meal + '_thumb']" alt="{{ mealPlan[day.key][meal] }}"
+                                    <img *ngIf="mealPlan[day.key][meal]" [src]="mealPlan[day.key][meal]?.thumb" alt="{{ mealPlan[day.key][meal] }}"
                                         class="rounded-circle" width="40" height="40" />
                                     <span>{{ mealPlan[day.key][meal] }}</span>
 

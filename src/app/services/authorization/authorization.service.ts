@@ -43,7 +43,8 @@ export class AuthorizationService {
     const token = this.GetToken();
     if (token) {
       const decoded: any = jwtDecode(token);
-      console.log(decoded);
+      // TODO: REMOVE
+      // console.log(decoded);
       return parseInt(decoded.sub);
     }
     return -1;

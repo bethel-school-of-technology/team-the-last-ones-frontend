@@ -12,6 +12,26 @@ interface DaysOfWeek {
   key: string;
 }
 
+// possible meals for the day
+type MealType = "Breakfast" | "Lunch" | "Dinner";
+
+// data stored for a single meal slot on the calendar
+interface PlannedMealSlot {
+  id: number;
+  name: string;
+  thumb: string;
+}
+
+// a map of the meals for a single day
+type DailyMealPlan = {
+  [key in MealType]?: PlannedMealSlot;
+}
+
+// a map of all days in the calendar
+type WeeklyMealPlan = {
+  [dateKey: string]: DailyMealPlan;
+}
+
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -19,9 +39,10 @@ interface DaysOfWeek {
 })
 export class CalendarComponent implements OnInit {
   userId:number = 1;
-  meals = ["Breakfast", "Lunch", "Dinner"];
+  meals: MealType[] = ["Breakfast", "Lunch", "Dinner"]; 
   daysOfWeek: DaysOfWeek[] = [];
-  mealPlan: { [dateKey: string]: { [meal: string]: string } } = {};
+  // mealPlan: { [dateKey: string]: { [meal: string]: string } } = {};
+  mealPlan: WeeklyMealPlan = {};
   availableRecipes: Meal[] = [];
   planMeals: MPlan[] = [];
 
@@ -31,7 +52,8 @@ export class CalendarComponent implements OnInit {
   ngOnInit() {
     this.userId = this.auth.GetUserId();
     this.currentWeek();
-    this.loadPlannedRecipes();
+    //// TODO: delete call if unused
+    // this.loadPlannedRecipes();
     this.getAllPlanMeals(this.userId);
   }
 
@@ -54,35 +76,34 @@ export class CalendarComponent implements OnInit {
 
       // Initialize meals
       this.mealPlan[key] = this.mealPlan[key] || {};
-      this.meals.forEach((meal) => {
-        if (!this.mealPlan[key][meal]) {
-          this.mealPlan[key][meal] = '';
-          this.mealPlan[key][meal + '_thumb'] = '';
-        }
-      });
     }
   }
 
-  loadPlannedRecipes() {
-    const stored = localStorage.getItem('plannedRecipes');
-    const plannedRecipes = stored ? JSON.parse(stored) : [];
+  //// TODO: delete method if unused
+  // loadPlannedRecipes() {
+  //   const stored = localStorage.getItem('plannedRecipes');
+  //   const plannedRecipes = stored ? JSON.parse(stored) : [];
 
-    plannedRecipes.forEach((entry: any) => {
-      const dateKey = entry.day;
-      const mealType = entry.meal;
+  //   plannedRecipes.forEach((entry: any) => {
+  //     const dateKey = entry.day;
+  //     const mealType = entry.meal;
 
-      if (!this.mealPlan[dateKey]) {
-        this.mealPlan[dateKey] = {};
-      }
+  //     if (!this.mealPlan[dateKey]) {
+  //       this.mealPlan[dateKey] = {};
+  //     }
 
-      this.mealPlan[dateKey][mealType] = entry.recipe.name;
-      this.mealPlan[dateKey][mealType + '_thumb'] = entry.recipe.thumb;
-      this.mealPlan[dateKey][mealType + '_id'] = entry.recipe.id;
-    });
-  }
+  //     this.mealPlan[dateKey][mealType] = entry.recipe.name;
+  //     this.mealPlan[dateKey][mealType + '_thumb'] = entry.recipe.thumb;
+  //     this.mealPlan[dateKey][mealType + '_id'] = entry.recipe.id;
+  //   });
+  // }
 
   isDayEmpty(dateKey: string): boolean {
-    return this.meals.every((meal) => !this.mealPlan[dateKey][meal]);
+    // a daily meal plan object
+    const dailyMealPlan = this.mealPlan[dateKey];
+    if (!dailyMealPlan) return true;
+
+    return Object.values(dailyMealPlan).every(slot => slot === undefined);
   }
 
   goToRecipesPage() {
@@ -95,16 +116,16 @@ export class CalendarComponent implements OnInit {
   }
 
   setMealForDay(dateKey: string, meal: string, recipe: Meal) {
-    this.mealPlan[dateKey][meal] = recipe.strMeal;
-    this.mealPlan[dateKey][meal + '_thumb'] = recipe.strMealThumb;
-    this.mealPlan[dateKey][meal + '_id'] = recipe.idMeal;
+    // this.mealPlan[dateKey][meal] = recipe.strMeal;
+    // this.mealPlan[dateKey][meal + '_thumb'] = recipe.strMealThumb;
+    // this.mealPlan[dateKey][meal + '_id'] = recipe.idMeal;
   }
 
   goToProfile() {
     this.router.navigate(['/profile']);
   }
 
-  goToRecipeDetails(mealId: string) {
+  goToRecipeDetails(mealId: number|undefined) {
     if (!mealId) {
       console.error('Missing meal ID');
       return;
@@ -114,17 +135,18 @@ export class CalendarComponent implements OnInit {
   }
 
   removeMeal(dateKey: string, meal: string) {
-    this.mealPlan[dateKey][meal] = '';
-    this.mealPlan[dateKey][meal + '_id'] = '';
-    this.mealPlan[dateKey][meal + '_thumb'] = '';
+    // this.mealPlan[dateKey][meal] = '';
+    // this.mealPlan[dateKey][meal + '_id'] = '';
+    // this.mealPlan[dateKey][meal + '_thumb'] = '';
   }
 
   getAllPlanMeals(Id: number) {
+    // TODO: Uncomment
     this.MplanService.GetAllMealsPlanByUser(Id).subscribe(result => {
       this.planMeals = result;
-      for(let i = 0; i < this.planMeals.length; i++){
-        console.log(this.planMeals[i]);
-      }
+      // for(let i = 0; i < this.planMeals.length; i++){
+      //   console.log(this.planMeals[i]);
+      // }
     })
   }
 }
