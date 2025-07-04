@@ -41,13 +41,11 @@ export class CalendarComponent implements OnInit {
   userId: number = 1;
   meals: MealType[] = ['Breakfast', 'Lunch', 'Dinner'];
   daysOfWeek: DaysOfWeek[] = [];
-  // mealPlan: { [dateKey: string]: { [meal: string]: string } } = {};
   mealPlan: WeeklyMealPlan = {};
   availableRecipes: Meal[] = [];
   planMeals: MPlan[] = [];
 
   constructor(
-    private mealDbService: MealDbService,
     private router: Router,
     private MplanService: MealsplanService,
     private auth: AuthorizationService
@@ -56,8 +54,6 @@ export class CalendarComponent implements OnInit {
   ngOnInit() {
     this.userId = this.auth.GetUserId();
     this.currentWeek();
-    //// TODO: delete call if unused
-    // this.loadPlannedRecipes();
     this.getAllPlanMeals(this.userId);
   }
 
@@ -82,25 +78,6 @@ export class CalendarComponent implements OnInit {
       this.mealPlan[key] = this.mealPlan[key] || {};
     }
   }
-
-  //// TODO: delete method if unused
-  // loadPlannedRecipes() {
-  //   const stored = localStorage.getItem('plannedRecipes');
-  //   const plannedRecipes = stored ? JSON.parse(stored) : [];
-
-  //   plannedRecipes.forEach((entry: any) => {
-  //     const dateKey = entry.day;
-  //     const mealType = entry.meal;
-
-  //     if (!this.mealPlan[dateKey]) {
-  //       this.mealPlan[dateKey] = {};
-  //     }
-
-  //     this.mealPlan[dateKey][mealType] = entry.recipe.name;
-  //     this.mealPlan[dateKey][mealType + '_thumb'] = entry.recipe.thumb;
-  //     this.mealPlan[dateKey][mealType + '_id'] = entry.recipe.id;
-  //   });
-  // }
 
   isDayEmpty(dateKey: string): boolean {
     // a daily meal plan object
@@ -147,7 +124,29 @@ export class CalendarComponent implements OnInit {
   getAllPlanMeals(Id: number) {
     // TODO: Uncomment
     this.MplanService.GetAllMealsPlanByUser(Id).subscribe((result) => {
-      this.planMeals = result;
+      const mealOrder: Record<MealType, number> = {
+        Breakfast: 0,
+        Lunch: 1,
+        Dinner: 2,
+      };
+
+      const latestMeals: Partial<Record<MealType, MPlan>> = {};
+
+      const sorted = result.sort((a, b) => {
+        const dateA = new Date(a.date!).getTime();
+        const dateB = new Date(b.date!).getTime();
+        return dateB - dateA;
+      });
+
+      for (const meal of sorted) {
+        const type = meal.timeOfDay as MealType;
+        if (!latestMeals[type]) {
+          latestMeals[type] = meal;
+        }
+        if (Object.keys(latestMeals).length === 3) break;
+      }
+
+      this.planMeals = Object.values(latestMeals);
       console.log(this.planMeals);
     });
   }
