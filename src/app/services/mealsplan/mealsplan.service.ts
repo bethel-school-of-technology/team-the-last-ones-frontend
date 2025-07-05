@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Meal } from '../../models/meal';
 import { MPlan } from '../../models/m-plan';
 import { AuthorizationService } from '../authorization/authorization.service';
+import { MealCreateDto } from 'src/app/models/DTOs/meal-create-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +27,7 @@ export class MealsplanService {
     return this.http.get<MPlan[]>(`${this.baseUrl}/${Id}`, { headers: reqHeaders});
   }
 
-  CreateMealPlan(meal: MPlan) {
+  CreateMealPlan(meal: MealCreateDto) {
     let token = this.GetToken();
     let reqHeaders = {
       Authorization: `Bearer ${token}`

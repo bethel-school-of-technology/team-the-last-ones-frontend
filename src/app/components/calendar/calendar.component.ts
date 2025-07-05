@@ -122,32 +122,39 @@ export class CalendarComponent implements OnInit {
   }
 
   getAllPlanMeals(Id: number) {
-    // TODO: Uncomment
     this.MplanService.GetAllMealsPlanByUser(Id).subscribe((result) => {
-      const mealOrder: Record<MealType, number> = {
-        Breakfast: 0,
-        Lunch: 1,
-        Dinner: 2,
-      };
+      this.planMeals = result;
 
-      const latestMeals: Partial<Record<MealType, MPlan>> = {};
+      this.populateWeeklyMealPlan();
+    });
+  }
 
-      const sorted = result.sort((a, b) => {
-        const dateA = new Date(a.date!).getTime();
-        const dateB = new Date(b.date!).getTime();
-        return dateB - dateA;
-      });
+  // private getNewestMealofDay(day: DailyMealPlan): MPlan[] {
+  //   let possibleMeals = Object.entries(day);
 
-      for (const meal of sorted) {
-        const type = meal.timeOfDay as MealType;
-        if (!latestMeals[type]) {
-          latestMeals[type] = meal;
-        }
-        if (Object.keys(latestMeals).length === 3) break;
-      }
+  //   const latestMeals: Partial<Record<MealType, MPlan>> = {};
 
-      this.planMeals = Object.values(latestMeals);
-      console.log(this.planMeals);
+  //   const sorted = result.sort((a, b) => {
+  //     const dateA = new Date(a.date!).getTime();
+  //     const dateB = new Date(b.date!).getTime();
+  //     return dateB - dateA;
+  //   });
+
+  //   for (const meal of sorted) {
+  //     const type = meal.timeOfDay as MealType;
+  //     if (!latestMeals[type]) {
+  //       latestMeals[type] = meal;
+  //     }
+  //     if (Object.keys(latestMeals).length === 3) break;
+  //   }
+  // }
+
+  populateWeeklyMealPlan() {
+    this.daysOfWeek.forEach((day) => {});
+
+    this.planMeals.forEach((m) => {
+      let d = m.date as Date;
+      console.log(d.toDateString());
     });
   }
 }

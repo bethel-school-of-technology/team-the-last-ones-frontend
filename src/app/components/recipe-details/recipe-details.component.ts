@@ -6,6 +6,7 @@ import { Meal } from 'src/app/models/meal';
 import { MPlan } from 'src/app/models/m-plan';
 import { MealsplanService } from 'src/app/services/mealsplan/mealsplan.service';
 import { AuthorizationService } from 'src/app/services/authorization/authorization.service';
+import { MealCreateDto } from 'src/app/models/DTOs/meal-create-dto';
 
 @Component({
   selector: 'app-recipe-details',
@@ -13,7 +14,6 @@ import { AuthorizationService } from 'src/app/services/authorization/authorizati
   styleUrls: ['./recipe-details.component.css'],
 })
 export class RecipeDetailsComponent {
-  newMealPlan: MPlan = new MPlan();
   meal: Meal | null = null;
   UserId: number = 1;
   ingredients: string[] = [];
@@ -110,11 +110,15 @@ export class RecipeDetailsComponent {
     //     thumb: this.meal.strMealThumb
     //   }
     // };
-    this.newMealPlan.date = this.selectedDay;
-    this.newMealPlan.timeOfDay = this.selectedMeal;
-    this.newMealPlan.idMeal = parseInt(this.meal.idMeal);
-    this.newMealPlan.userId = this.UserId;
-    this.MplanService.CreateMealPlan(this.newMealPlan).subscribe(() => {
+
+    let newMealPlanDto = new MealCreateDto(
+      this.UserId,
+      this.selectedMeal,
+      this.selectedDay,
+      parseInt(this.meal.idMeal)
+    );
+
+    this.MplanService.CreateMealPlan(newMealPlanDto).subscribe(() => {
       window.alert("Plan was Successfully made");
     }, error => {
       console.log('Error: ', error);
