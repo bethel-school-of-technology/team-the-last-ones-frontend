@@ -150,11 +150,60 @@ export class CalendarComponent implements OnInit {
   // }
 
   populateWeeklyMealPlan() {
-    this.daysOfWeek.forEach((day) => {});
+    /*
+     What am I trying to do? I need to get all the meals with a particular date into one array.
+    */
 
-    this.planMeals.forEach((m) => {
-      let d = m.date as Date;
-      console.log(d.toDateString());
+    // ===== BREAKFAST =====
+    let allBreakfasts = this.planMeals.filter((m) => {
+      return m.timeOfDay === 'Breakfast';
     });
+
+    allBreakfasts.sort((a, b) => {
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+
+      return dateB - dateA;
+    });
+
+    // ===== LUNCH =====
+    let allLunches = this.planMeals.filter((m) => {
+      return m.timeOfDay === 'Lunch';
+    });
+
+    allLunches.sort((a, b) => {
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+
+      return dateB - dateA;
+    });
+
+    // ===== DINNER =====
+    let allDinners = this.planMeals.filter((m) => {
+      return m.timeOfDay === 'Dinner';
+    });
+
+    allDinners.sort((a, b) => {
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+
+      return dateB - dateA;
+    });
+
+    /*
+    Now what do I need to do? I need to skim the top seven of each list and add it to mealPlan
+     */
+
+    for (let i = 0; i < 7; i++) {
+      let breakfast = allBreakfasts.pop();
+      let lunch = allLunches.pop();
+      let dinner = allDinners.pop();
+
+      let newMealSlot: PlannedMealSlot {
+        id = breakfast?.idMeal,
+        name = "temp",
+        thumb = breakfast.
+      };
+    }
   }
 }
