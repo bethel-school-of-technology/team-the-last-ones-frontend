@@ -1,15 +1,23 @@
-export class MPlan {
-    planId?: number;
-    userId: number;
-    timeOfDay: string;
-    date: Date;
-    idMeal: number 
+import { Meal } from './meal';
 
-    constructor(planId:number, userId:number, timeOfDay:string, date:Date, mealId:number){
-        this.planId = planId;
-        this.userId = userId;
-        this.timeOfDay = timeOfDay;
-        this.date = date;
-        this.idMeal = mealId;
-    }
+export class MPlan {
+  MPlanId: number;
+  userId: number;
+  timeOfDay: string;
+  date: Date;
+  meal: Meal;
+
+  constructor(
+    mPlanId: number,
+    userId: number,
+    timeOfDay: string,
+    date: Date,
+    meal: Meal
+  ) {
+    this.MPlanId = mPlanId;
+    this.userId = userId;
+    this.timeOfDay = timeOfDay;
+    this.date = date;
+    this.meal = meal;
+  }
 }
