@@ -7,43 +7,47 @@ import { AuthorizationService } from '../authorization/authorization.service';
 import { MealCreateDto } from 'src/app/models/DTOs/meal-create-dto';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class MealsplanService {
-  baseUrl = 'http://localhost:5251/api/Meals';
+    baseUrl = 'http://localhost:5251/api/Meals';
 
-  constructor(private http: HttpClient, private auth: AuthorizationService) {}
+    constructor(private http: HttpClient, private auth: AuthorizationService) {}
 
-  private GetToken(): string | null {
-    return this.auth.GetToken();
-  }
+    private GetToken(): string | null {
+        return this.auth.GetToken();
+    }
 
-  GetAllMealsPlanByUser(Id: number): Observable<MPlan[]> {
-    let token = this.GetToken();
-    let reqHeaders = {
-      Authorization: `Bearer ${token}`
-    };
-    console.log(`Attempting with token ${token}`);
-    return this.http.get<MPlan[]>(`${this.baseUrl}/${Id}`, { headers: reqHeaders});
-  }
+    GetAllMealsPlanByUser(Id: number): Observable<MPlan[]> {
+        let token = this.GetToken();
+        let reqHeaders = {
+            Authorization: `Bearer ${token}`,
+        };
+        console.log(`Attempting with token ${token}`);
+        return this.http.get<MPlan[]>(`${this.baseUrl}/${Id}`, {
+            headers: reqHeaders,
+        });
+    }
 
-  CreateMealPlan(meal: MealCreateDto) {
-    let token = this.GetToken();
-    let reqHeaders = {
-      Authorization: `Bearer ${token}`
-    };
-    return this.http.post(`${this.baseUrl}/create`, meal, { headers: reqHeaders });
-  }
+    CreateMealPlan(meal: MealCreateDto) {
+        let token = this.GetToken();
+        let reqHeaders = {
+            Authorization: `Bearer ${token}`,
+        };
+        return this.http.post(`${this.baseUrl}/create`, meal, {
+            headers: reqHeaders,
+        });
+    }
 
-  UpdateMealPlanById(meal: MPlan) {
-    return this.http.put(`${this.baseUrl}/update${meal.planId}`, meal);
-  }
+    UpdateMealPlanById(meal: MPlan) {
+        return this.http.put(`${this.baseUrl}/update${meal.MPlanId}`, meal);
+    }
 
-  DeleteMealPlanByMealsId(id: number) {
-    return this.http.delete(`${this.baseUrl}/delete${id}`);
-  }
+    DeleteMealPlanByMealsId(id: number) {
+        return this.http.delete(`${this.baseUrl}/delete${id}`);
+    }
 
-  GetMealPlanByMealId(id: number) {
-    return this.http.get(`${this.baseUrl}/mealId${id}`);
-  }
+    GetMealPlanByMealId(id: number) {
+        return this.http.get(`${this.baseUrl}/mealId${id}`);
+    }
 }

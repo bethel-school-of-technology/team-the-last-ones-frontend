@@ -140,6 +140,9 @@ export class RecipeDetailsComponent {
   goToRecipes() {
     this.router.navigate(['/recipes']);
   }
+  goToRecipesDetails(id: number) {
+    this.router.navigate([`'/recipes/${id}'`]);
+  }
   goToCalendar() {
     this.router.navigate(['/calendar']);
   }

@@ -5,32 +5,7 @@ import { Router } from '@angular/router';
 import { MPlan } from 'src/app/models/m-plan';
 import { MealsplanService } from 'src/app/services/mealsplan/mealsplan.service';
 import { AuthorizationService } from 'src/app/services/authorization/authorization.service';
-
-interface DaysOfWeek {
-  label: string;
-  date: Date;
-  key: string;
-}
-
-// possible meals for the day
-type MealType = 'Breakfast' | 'Lunch' | 'Dinner';
-
-// data stored for a single meal slot on the calendar
-interface PlannedMealSlot {
-  id: number;
-  name: string;
-  thumb: string;
-}
-
-// a map of the meals for a single day
-type DailyMealPlan = {
-  [key in MealType]?: PlannedMealSlot;
-};
-
-// a map of all days in the calendar
-type WeeklyMealPlan = {
-  [dateKey: string]: DailyMealPlan;
-};
+import { Day } from 'src/app/models/day';
 
 @Component({
   selector: 'app-calendar',
@@ -39,16 +14,17 @@ type WeeklyMealPlan = {
 })
 export class CalendarComponent implements OnInit {
   userId: number = 1;
-  meals: MealType[] = ['Breakfast', 'Lunch', 'Dinner'];
-  daysOfWeek: DaysOfWeek[] = [];
-  mealPlan: WeeklyMealPlan = {};
+  // daysOfWeek: DaysOfWeek[] = [];
+  meals: string[] = ['Breakfast', 'Lunch', 'Dinner'];
+  mealPlan: Day[] = [];
   availableRecipes: Meal[] = [];
-  planMeals: MPlan[] = [];
+  allUserMeals: MPlan[] = [];
 
   constructor(
     private router: Router,
     private MplanService: MealsplanService,
-    private auth: AuthorizationService
+    private auth: AuthorizationService,
+    private mealDb: MealDbService
   ) {}
 
   ngOnInit() {
@@ -59,7 +35,6 @@ export class CalendarComponent implements OnInit {
 
   currentWeek() {
     const today = new Date();
-    this.daysOfWeek = [];
 
     for (let i = 0; i < 7; i++) {
       const date = new Date(today);
@@ -72,19 +47,23 @@ export class CalendarComponent implements OnInit {
         day: 'numeric',
       });
 
-      this.daysOfWeek.push({ label, date, key });
+      // this.daysOfWeek.push({ label, date, key });
 
       // Initialize meals
-      this.mealPlan[key] = this.mealPlan[key] || {};
+      // this.mealPlan[key] = this.mealPlan[key] || {};
+      let day = new Day(label, date, key);
+
+      this.mealPlan.push(day);
     }
   }
 
   isDayEmpty(dateKey: string): boolean {
-    // a daily meal plan object
-    const dailyMealPlan = this.mealPlan[dateKey];
-    if (!dailyMealPlan) return true;
+    // // a daily meal plan object
+    // const dailyMealPlan = this.mealPlan[dateKey];
+    // if (!dailyMealPlan) return true;
 
-    return Object.values(dailyMealPlan).every((slot) => slot === undefined);
+    // return Object.values(dailyMealPlan).every((slot) => slot === undefined);
+    return false;
   }
 
   goToRecipesPage() {
@@ -115,15 +94,19 @@ export class CalendarComponent implements OnInit {
     this.router.navigate(['/recipe-details', mealId]);
   }
 
-  removeMeal(dateKey: string, meal: string) {
-    // this.mealPlan[dateKey][meal] = '';
-    // this.mealPlan[dateKey][meal + '_id'] = '';
-    // this.mealPlan[dateKey][meal + '_thumb'] = '';
-  }
+  //   removeMeal(dateKey: string, meal: string) {
+  //     // this.mealPlan[dateKey][meal] = '';
+  //     // this.mealPlan[dateKey][meal + '_id'] = '';
+  //     // this.mealPlan[dateKey][meal + '_thumb'] = '';
+  //   }
 
   getAllPlanMeals(Id: number) {
     this.MplanService.GetAllMealsPlanByUser(Id).subscribe((result) => {
-      this.planMeals = result;
+      this.allUserMeals = result;
+
+      this.allUserMeals.forEach((m) => {
+        this.populateIndividualMeal(m.idMeal);
+      });
 
       this.populateWeeklyMealPlan();
     });
@@ -149,13 +132,14 @@ export class CalendarComponent implements OnInit {
   //   }
   // }
 
-  populateWeeklyMealPlan() {
+  populateWeeklyMealPlan(): void {
     /*
-     What am I trying to do? I need to get all the meals with a particular date into one array.
-    */
+    What am I trying to do? I need to get all the meals with a particular date into one array.
+  */
 
+    console.log('\n\n\n');
     // ===== BREAKFAST =====
-    let allBreakfasts = this.planMeals.filter((m) => {
+    let allBreakfasts = this.allUserMeals.filter((m) => {
       return m.timeOfDay === 'Breakfast';
     });
 
@@ -167,7 +151,7 @@ export class CalendarComponent implements OnInit {
     });
 
     // ===== LUNCH =====
-    let allLunches = this.planMeals.filter((m) => {
+    let allLunches = this.allUserMeals.filter((m) => {
       return m.timeOfDay === 'Lunch';
     });
 
@@ -179,7 +163,7 @@ export class CalendarComponent implements OnInit {
     });
 
     // ===== DINNER =====
-    let allDinners = this.planMeals.filter((m) => {
+    let allDinners = this.allUserMeals.filter((m) => {
       return m.timeOfDay === 'Dinner';
     });
 
@@ -191,19 +175,39 @@ export class CalendarComponent implements OnInit {
     });
 
     /*
-    Now what do I need to do? I need to skim the top seven of each list and add it to mealPlan
-     */
+  Now what do I need to do? I need to skim the top seven of each list and add it to mealPlan
+    */
 
     for (let i = 0; i < 7; i++) {
       let breakfast = allBreakfasts.pop();
       let lunch = allLunches.pop();
       let dinner = allDinners.pop();
 
-      let newMealSlot: PlannedMealSlot {
-        id = breakfast?.idMeal,
-        name = "temp",
-        thumb = breakfast.
-      };
+      let currentDay = this.mealPlan[i];
+
+      currentDay.Breakfast = breakfast;
+      currentDay.Lunch = lunch;
+      currentDay.Dinner = dinner;
+
+      //   console.log(currentDay);
+      currentDay.updateMealArray();
     }
+
+    /*
+    Now what do I need to do? I need to make calls to MealsDB and fill in the data
+    */
+  }
+
+  populateIndividualMeal(id: number): void {
+    this.mealDb.GetMealById(id.toString()).subscribe((result) => {
+      //   console.log(result[0]);
+
+      for (let i = 0; i < this.allUserMeals.length; i++) {
+        if (this.allUserMeals[i].idMeal === parseInt(result[0].idMeal)) {
+          this.allUserMeals[i].meal = result[0];
+          console.log(this.allUserMeals[i].meal);
+        }
+      }
+    });
   }
 }
