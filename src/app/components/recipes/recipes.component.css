@@ -2,9 +2,9 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background: #f9f9f9;
+    background: white;
     padding: 1rem;
-    background-color: #f9f9f9;
+    background-color: white;
 }
 
 .recipes-header {
@@ -43,8 +43,11 @@
     padding: 1.5rem;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     width: 100%;
-    max-width: 600px;
     text-align: center;
+}
+
+.full-width-card {
+    max-width: none;
 }
 
 .search-bar {
@@ -180,7 +183,7 @@
 }
 
 .form-control {
-    color: #999;
+    color: white;
     font-size: 1rem;
     padding: 8px 12px;
     border: 1px solid #ccc;
@@ -188,7 +191,7 @@
 }
 
 .form-control::placeholder {
-    color: #95a5a6;
+    color: #999;
     opacity: 1;
 }
 
