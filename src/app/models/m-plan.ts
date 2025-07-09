@@ -4,26 +4,29 @@ import { Meal } from './meal';
 type MealType = 'Breakfast' | 'Lunch' | 'Dinner';
 
 export class MPlan {
-  MPlanId: number;
+  mealsPlanId: number;
   userId: number;
   idMeal: number;
   timeOfDay: MealType;
   date: Date;
-  meal: Meal;
+  thumb: string;
+  mealName: string;
 
   constructor(
-    mPlanId: number,
+    mealsPlanId: number,
     userId: number,
     idMeal: number,
     timeOfDay: MealType,
     date: Date,
-    meal: Meal
+    thumb: string,
+    mealName: string
   ) {
-    this.MPlanId = mPlanId;
+    this.mealsPlanId = mealsPlanId;
     this.userId = userId;
     this.idMeal = idMeal;
     this.timeOfDay = timeOfDay;
     this.date = date;
-    this.meal = meal;
+    this.thumb = thumb;
+    this.mealName = mealName;
   }
 }

@@ -22,8 +22,13 @@ export class RecipeDetailsComponent {
   selectedMeal: string = 'Breakfast';
   weekDates: { key: Date; label: string }[] = [];
 
-  constructor(private mealDbService: MealDbService, private router: Router, private route: ActivatedRoute, private MplanService: MealsplanService, private auth: AuthorizationService) { }
-
+  constructor(
+    private mealDbService: MealDbService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private MplanService: MealsplanService,
+    private auth: AuthorizationService
+  ) {}
 
   ngOnInit() {
     this.UserId = this.auth.GetUserId();
@@ -84,9 +89,9 @@ export class RecipeDetailsComponent {
       const date = new Date(today);
       date.setDate(today.getDate() + i);
       const key = date;
-      console.log("key: ", key);
+      // console.log('key: ', key);
       const label = date.toDateString();
-      console.log('label: ', label);
+      // console.log('label: ', label);
       this.weekDates.push({ key, label });
     }
 
@@ -111,22 +116,30 @@ export class RecipeDetailsComponent {
     //   }
     // };
 
+    // let selectedDate = this.toUTCDateOnly(this.selectedDay);
+    let storeDate = new Date(this.selectedDay);
+    storeDate = this.toUTCDateOnly(storeDate);
+
     let newMealPlanDto = new MealCreateDto(
       this.UserId,
       this.selectedMeal,
-      this.selectedDay,
-      parseInt(this.meal.idMeal)
+      storeDate,
+      parseInt(this.meal.idMeal),
+      this.meal.strMealThumb,
+      this.meal.strMeal
     );
 
-    this.MplanService.CreateMealPlan(newMealPlanDto).subscribe(() => {
-      window.alert("Plan was Successfully made");
-    }, error => {
-      console.log('Error: ', error);
-      if (error.status === 401 || error.status === 403){
-        this.router.navigate(['/login'])
+    this.MplanService.CreateMealPlan(newMealPlanDto).subscribe(
+      () => {
+        window.alert('Plan was Successfully made');
+      },
+      (error) => {
+        console.log('Error: ', error);
+        if (error.status === 401 || error.status === 403) {
+          this.router.navigate(['/login']);
+        }
       }
-    })
-
+    );
 
     // const stored = localStorage.getItem('plannedRecipes');
     // const plannedRecipes = stored ? JSON.parse(stored) : [];
@@ -145,5 +158,19 @@ export class RecipeDetailsComponent {
   }
   goToCalendar() {
     this.router.navigate(['/calendar']);
+  }
+
+  toUTCDateOnly(date: Date): Date {
+    return new Date(
+      Date.UTC(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        date.getHours(),
+        date.getMinutes(),
+        date.getSeconds(),
+        date.getMilliseconds()
+      )
+    );
   }
 }
