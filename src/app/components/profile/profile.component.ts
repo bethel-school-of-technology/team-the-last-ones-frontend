@@ -9,15 +9,16 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  user: User = new User('', '', '', '');
+  user: User = new User('', '', '', 0);
   editing: boolean = false;
 
   constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
-    const storedId = localStorage.getItem('userId');
+    // const storedId = localStorage.getItem('userId');
+    const storedId: number = 1;
     if (storedId) {
-      const userId = parseInt(storedId, 10);
+      const userId = storedId;
       this.loadProfile(userId);
     } else {
       console.error('No user ID found in localStorage.');
@@ -25,9 +26,11 @@ export class ProfileComponent implements OnInit {
   }
 
   loadProfile(userId: number) {
-    this.userService.getUserProfile(userId).subscribe({
+    this.userService.getUserById(userId).subscribe({
       next: (data) => {
         this.user = data; // assumes API returns { id, username, email, password }
+        console.log(this.user);
+        console.log(data);
       },
       error: (err) => console.error('Error loading profile:', err)
     });
@@ -38,12 +41,12 @@ export class ProfileComponent implements OnInit {
   }
 
   saveProfile() {
-    if (!this.user.id) {
+    if (!this.user.userId) {
       console.error('No user ID.');
       return;
     }
 
-    this.userService.updateUserProfile(this.user.id, this.user).subscribe({
+    this.userService.updateUserProfile(this.user.userId, this.user).subscribe({
       next: () => {
         this.editing = false;
       },
@@ -52,15 +55,15 @@ export class ProfileComponent implements OnInit {
   }
 
   deleteProfile() {
-    if (!this.user.id) {
+    if (!this.user.userId) {
       console.error('No user ID.');
       return;
     }
 
-    this.userService.deleteUserAccount(this.user.id).subscribe({
+    this.userService.deleteUserAccount(this.user.userId).subscribe({
       next: () => {
         localStorage.removeItem('userId');
-        this.user = new User('', '', '', '');
+        this.user = new User('', '', '', 0);
         this.editing = true;
       },
       error: (err) => console.error('Error deleting account:', err)
@@ -83,7 +86,7 @@ export class ProfileComponent implements OnInit {
   //just wanted to get the button on the page
   logout() {
     localStorage.removeItem('authToken');
-    this.user = new User('', '', '', '');
+    this.user = new User('', '', '', 0);
     this.router.navigate(['/login']);
   }
 }

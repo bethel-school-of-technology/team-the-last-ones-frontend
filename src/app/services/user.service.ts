@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-  baseUrl: string = 'https://localhost:5251/api/users'; //need correct API endpoint
+  baseUrl: string = 'http://localhost:5251/api/User'; //need correct API endpoint
 
   constructor(private http: HttpClient) { }
 
@@ -16,40 +16,43 @@ export class UserService {
     return this.http.post(`${this.baseUrl}/register`, user);
   }
 
-  loginUser(credentials: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/login`, credentials);
-  }
+  // loginUser(credentials: any): Observable<any> {
+  //   return this.http.post(`${this.baseUrl}/login`, credentials);
+  // }
 
   getUserById(userId: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/user/${userId}`);
+    return this.http.get(`${this.baseUrl}/userId${userId}`);
   }
 
   login(username: string, password: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/login`, { username, password });
   }
 
-  //for future use if we want to implement user profile management
-  getUserProfile(userId: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/profile/${userId}`);
-  }
-  updateUserProfile(userId: number, userData: any): Observable<any> {
-    return this.http.put(`${this.baseUrl}/profile/${userId}`, userData);
-  }
-  deleteUserAccount(userId: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/profile/${userId}`);
+    updateUserProfile(userId: number, userData: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/${userId}`, userData);
   }
 
-  //do we nneed this?
-  getAllUsers(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/all`);
+    deleteUserAccount(userId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/delete${userId}`);
   }
 
+//   //for future use if we want to implement user profile management
+//   getUserProfile(userId: number): Observable<any> {
+//     return this.http.get(`${this.baseUrl}/profile/${userId}`);
+//   }
 
-  //for future use if we want to implement password reset functionality
-  resetPassword(email: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/reset-password`, { email });
-  }
-  changePassword(userId: number, oldPassword: string, newPassword: string): Observable<any> {
-    return this.http.put(`${this.baseUrl}/change-password/${userId}`, { oldPassword, newPassword });
-  }
+
+//   //do we nneed this?
+//   getAllUsers(): Observable<any> {
+//     return this.http.get(`${this.baseUrl}/all`);
+//   }
+
+
+//   //for future use if we want to implement password reset functionality
+//   resetPassword(email: string): Observable<any> {
+//     return this.http.post(`${this.baseUrl}/reset-password`, { email });
+//   }
+//   changePassword(userId: number, oldPassword: string, newPassword: string): Observable<any> {
+//     return this.http.put(`${this.baseUrl}/change-password/${userId}`, { oldPassword, newPassword });
+//   }
 }

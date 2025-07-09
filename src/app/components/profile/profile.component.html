@@ -14,7 +14,7 @@
     <div class="auth-card profile-card text-center mb-4">
         <img src="assets/profile-icon.png" alt="Profile Icon" class="rounded-circle mb-3" width="100" height="100" />
         <div *ngIf="!editing">
-            <p><strong class="profile-info">Username:</strong>{{ user.username }}</p>
+            <p><strong class="profile-info">Username:</strong>{{ user.userName }}</p>
             <p><strong class="profile-info">Email:</strong> {{ user.email }}</p>
             <button class="recipe-button me-2" (click)="enableEdit()">Edit</button>
             <button class="recipe-button delete-button" (click)="deleteProfile()">Delete Account</button>
@@ -25,16 +25,16 @@
         <h2 class="edit-text">Edit Profile</h2>
         <div class="form-group mb-3">
             <label>Username:</label>
-            <input [(ngModel)]="user.username" class="form-control" />
+            <input [(ngModel)]="user.userName" class="form-control" />
         </div>
         <div class="form-group mb-3">
             <label>Email:</label>
             <input [(ngModel)]="user.email" class="form-control" />
         </div>
-        <div class="form-group mb-3">
+        <!-- <div class="form-group mb-3">
             <label>Password:</label>
             <input [(ngModel)]="user.password" type="password" class="form-control" />
-        </div>
+        </div> -->
         <button class="recipe-button me-2 btn btn-primary" (click)="saveProfile()">Save</button>
         <button class="recipe-button me-2 btn btn-primary" (click)="cancelEdit()">Cancel</button>
     </div>
