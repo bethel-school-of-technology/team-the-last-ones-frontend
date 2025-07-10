@@ -1,54 +1,64 @@
 <div class="calendar-app-container">
-    <div class="calendar-header container mb-3">
-        <div class="calendar-header-bar">
-            <div class="icon-button-group">
-                <button class="recipe-button" (click)="goToRecipesPage()">Recipes</button>
-                <a routerLink="/profile" class="icon-button">
-                    <img src="assets/profile-icon.png" alt="Profile" />
-                </a>
-            </div>
-            <h2 class="calendar-title">Meal Plan for the Week</h2>
-        </div>
+  <div class="calendar-header container mb-3">
+    <div class="calendar-header-bar">
+      <div class="icon-button-group">
+        <button class="recipe-button" (click)="goToRecipes()">Recipes</button>
+        <a routerLink="/profile" class="icon-button">
+          <img src="assets/profile-icon.png" alt="Profile" />
+        </a>
+      </div>
+      <h2 class="calendar-title">Meal Plan for the Week</h2>
     </div>
+  </div>
 
-
-    <div class="calendar-body container">
-        <div class="row flex-wrap justify-content-center">
-            <div class="col-12 col-md-6 col-lg-4 mb-4" *ngFor="let day of daysOfWeek">
-                <div class="card shadow-sm h-100 calendar-day-card">
-                    <div class="card-header calendar-card-header">
-                        <span>{{ day.label }}</span>
-                        <button class="btn plus-button" (click)="goToRecipes(day.key)">
-                            <i class="bi bi-plus-lg custom-plus-icon"></i>
-
-
-                        </button>
-
-                    </div>
-                    <div class="card-body d-flex flex-column justify-content-between">
-                        <div *ngIf="isDayEmpty(day.key)" class="empty-day text-center p-3 border rounded">
-                            <p class="text-muted mb-2">Add meals for the day</p>
-                        </div>
-
-                        <div *ngIf="!isDayEmpty(day.key)">
-                            <div *ngFor="let meal of meals">
-
-                                <div *ngIf="mealPlan[day.key][meal]"
-                                    class="d-flex align-items-center justify-content-between mb-2 recipe-clickable"
-                                    (click)="goToRecipeDetails(mealPlan[day.key][meal + '_id'])"
-                                    style="cursor: pointer;">
-                                    <img [src]="mealPlan[day.key][meal + '_thumb']" alt="{{ mealPlan[day.key][meal] }}"
-                                        class="rounded-circle" width="40" height="40" />
-                                    <span>{{ mealPlan[day.key][meal] }}</span>
-
-                                    <button class="btn btn-sm btn-outline-danger"
-                                        (click)="removeMeal(day.key, meal); $event.stopPropagation()">
-                                        &times;
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div class="calendar-body container">
+    <div class="row flex-wrap justify-content-center">
+      <div
+        class="col-12 col-md-6 col-lg-4 mb-4"
+        *ngFor="let day of calendarSchedule"
+      >
+        <div class="card shadow-sm h-100 calendar-day-card">
+          <div class="card-header calendar-card-header">
+            <span>{{ day.label }}</span>
+            <button class="btn plus-button">
+              <i class="bi bi-plus-lg custom-plus-icon"></i>
+            </button>
+          </div>
+          <div class="card-body d-flex flex-column justify-content-between">
+            <div
+              class="empty-day text-center p-3 border rounded"
+              *ngIf="day.isDayEmpty()"
+            >
+              <p class="text-muted mb-2">Add meals for the day</p>
             </div>
+
+            <div *ngIf="!day.isDayEmpty()">
+              <div *ngFor="let meal of day.getMeals()">
+                <div
+                  class="d-flex align-items-center justify-content-between mb-2 recipe-clickable"
+                  style="cursor: pointer"
+                >
+                  <img
+                    [src]="meal.plan?.thumb"
+                    alt="meal.plan?.mealName"
+                    class="rounded-circle"
+                    width="40"
+                    height="40"
+                  />
+                  <span>{{ meal.plan?.mealName }}</span>
+
+                  <button
+                    class="btn btn-sm btn-outline-danger"
+                    (click)="removeMeal(day, meal.plan?.timeOfDay)"
+                  >
+                    &times;
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
