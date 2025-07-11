@@ -224,4 +224,13 @@ export class CalendarComponent implements OnInit {
       }
     }
   }
+
+  logOut(): void {
+    this.authService.logOut();
+    this.router.navigateByUrl('/recipes');
+  }
+
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
 }
