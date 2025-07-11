@@ -1,22 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
-import { UserService } from 'src/app/services/user.service';
+import { AuthorizationService } from 'src/app/services/authorization/authorization.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
   user: User = new User('', '', '', 0);
   editing: boolean = false;
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private authService: AuthorizationService
+  ) {}
 
   ngOnInit(): void {
-    // const storedId = localStorage.getItem('userId');
-    const storedId: number = 1;
+    const storedId = this.authService.GetUserId();
     if (storedId) {
       const userId = storedId;
       this.loadProfile(userId);
@@ -32,7 +36,7 @@ export class ProfileComponent implements OnInit {
         console.log(this.user);
         console.log(data);
       },
-      error: (err) => console.error('Error loading profile:', err)
+      error: (err) => console.error('Error loading profile:', err),
     });
   }
 
@@ -50,7 +54,7 @@ export class ProfileComponent implements OnInit {
       next: () => {
         this.editing = false;
       },
-      error: (err) => console.error('Error updating profile:', err)
+      error: (err) => console.error('Error updating profile:', err),
     });
   }
 
@@ -66,7 +70,7 @@ export class ProfileComponent implements OnInit {
         this.user = new User('', '', '', 0);
         this.editing = true;
       },
-      error: (err) => console.error('Error deleting account:', err)
+      error: (err) => console.error('Error deleting account:', err),
     });
   }
 

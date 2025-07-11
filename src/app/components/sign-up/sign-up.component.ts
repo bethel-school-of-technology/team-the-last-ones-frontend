@@ -15,13 +15,13 @@ export class SignUpComponent {
 
   constructor(private router: Router, private authService: AuthorizationService) { }
 
-  newUser: User = new User();
+  newUser: User = new User("", "", "", 0);
 
   ngOnInit(): void {}
   
   signUp() {
     // Basic validation
-    if (!this.newUser.username || !this.newUser.email || !this.newUser.password) {
+    if (!this.newUser.userName || !this.newUser.email || !this.newUser.password) {
       alert('Please fill in all fields.');
       return;
     }

@@ -35,6 +35,7 @@
             <div *ngIf="!day.isDayEmpty()">
               <div *ngFor="let meal of day.getMeals()">
                 <div
+                  *ngIf="meal.plan?.thumb"
                   class="d-flex align-items-center justify-content-between mb-2 recipe-clickable"
                   style="cursor: pointer"
                 >
