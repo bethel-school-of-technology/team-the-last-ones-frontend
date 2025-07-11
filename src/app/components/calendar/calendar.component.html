@@ -32,7 +32,7 @@
               <p class="text-muted mb-2">Add meals for the day</p>
             </div>
 
-            <div *ngIf="!day.isDayEmpty()">
+            <ng-container *ngIf="!day.isDayEmpty()">
               <div *ngFor="let meal of day.getMeals()">
                 <div
                   *ngIf="meal.plan?.thumb"
@@ -56,7 +56,7 @@
                   </button>
                 </div>
               </div>
-            </div>
+            </ng-container>
           </div>
         </div>
       </div>
