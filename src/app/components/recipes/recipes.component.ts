@@ -2,18 +2,23 @@ import { Component } from '@angular/core';
 import { MealDbService } from 'src/app/services/mealdb/mealdbservice.service';
 import { Meal } from 'src/app/models/meal';
 import { Router } from '@angular/router';
+import { AuthorizationService } from 'src/app/services/authorization/authorization.service';
 
 @Component({
   selector: 'app-recipe',
   templateUrl: './recipes.component.html',
-  styleUrls: ['./recipes.component.css']
+  styleUrls: ['./recipes.component.css'],
 })
 export class RecipeComponent {
   searchQuery = '';
   meals: Meal[] = [];
   errorMessage = '';
 
-  constructor(private mealService: MealDbService, private router: Router) { }
+  constructor(
+    private mealService: MealDbService,
+    private router: Router,
+    private authService: AuthorizationService
+  ) {}
 
   onSearch() {
     if (this.searchQuery.trim() !== '') {
@@ -29,7 +34,7 @@ export class RecipeComponent {
         },
         error: () => {
           this.errorMessage = 'Error fetching recipes.';
-        }
+        },
       });
     }
   }
@@ -41,7 +46,7 @@ export class RecipeComponent {
   getAllMeals(): void {
     const letters = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
-    letters.forEach(letter => {
+    letters.forEach((letter) => {
       this.mealService.GetAllMealsByFirstLetter(letter).subscribe({
         next: (data) => {
           if (data) {
@@ -50,11 +55,10 @@ export class RecipeComponent {
         },
         error: () => {
           console.warn(`No meals found for letter: ${letter}`);
-        }
+        },
       });
     });
   }
-
 
   goToCalendar() {
     this.router.navigate(['/calendar']);
@@ -70,5 +74,14 @@ export class RecipeComponent {
 
   goToRecipeDetails(id: string) {
     this.router.navigate(['/recipes', id]);
+  }
+
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
+  logOut(): void {
+    this.authService.logOut();
+    this.router.navigate(['/recipes']);
   }
 }

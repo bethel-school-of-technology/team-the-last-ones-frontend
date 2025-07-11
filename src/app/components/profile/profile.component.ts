@@ -86,11 +86,8 @@ export class ProfileComponent implements OnInit {
     this.editing = false;
   }
 
-  //probably need to fix this function
-  //just wanted to get the button on the page
   logout() {
-    localStorage.removeItem('authToken');
-    this.user = new User('', '', '', 0);
-    this.router.navigate(['/login']);
+    this.authService.logOut();
+    this.router.navigate(['/recipes']);
   }
 }

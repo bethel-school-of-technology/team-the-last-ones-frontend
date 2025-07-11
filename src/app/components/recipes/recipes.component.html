@@ -1,58 +1,69 @@
 <div class="container py-4">
+  <div class="recipes-header container-fluid p-0">
+    <div
+      class="auth-card header-card full-width-card mb-4 d-flex justify-content-between align-items-center"
+    >
+      <h1 class="header-title m-0">ARUCHA</h1>
+      <div class="icon-button-group">
+        <button class="login-button" (click)="goToLogin()">Login</button>
+        <ng-container *ngIf="isLoggedIn()">
+          <button class="login-button" (click)="logOut()">Logout</button>
+        </ng-container>
 
-    <div class="recipes-header container-fluid p-0">
-        <div class="auth-card header-card full-width-card mb-4 d-flex justify-content-between align-items-center">
-            <h1 class="header-title m-0">ARUCHA</h1>
-            <div class="icon-button-group">
+        <ng-container *ngIf="isLoggedIn()">
+          <a routerLink="/calendar" class="icon-button">
+            <img src="assets/calendar-icon.png" alt="Calendar" />
+          </a>
+        </ng-container>
+        <ng-container *ngIf="isLoggedIn()">
+          <a routerLink="/profile" class="icon-button">
+            <img src="assets/profile-icon.png" alt="Profile" />
+          </a>
+        </ng-container>
+      </div>
+    </div>
+  </div>
 
-                <button class="login-button" (click)="goToLogin()">Login</button>
-
-                <a routerLink="/calendar" class="icon-button">
-                    <img src="assets/calendar-icon.png" alt="Calendar" />
-                </a>
-                <a routerLink="/profile" class="icon-button">
-                    <img src="assets/profile-icon.png" alt="Profile" />
-                </a>
-            </div>
-
-        </div>
+  <div class="recipes-container">
+    <div class="recipes-header">
+      <div class="auth-card header-card full-width-card mb-4">
+        <h1 class="recipes-title mb-0">Recipes</h1>
+        <form (ngSubmit)="onSearch()" class="search-bar">
+          <input
+            type="text"
+            [(ngModel)]="searchQuery"
+            name="searchQuery"
+            placeholder="Search..."
+            class="form-control"
+            required
+          />
+          <button type="submit" class="search-icon-button">
+            <img src="assets/search-icon.png" alt="Search" />
+          </button>
+        </form>
+      </div>
     </div>
 
-    <div class="recipes-container">
-        <div class="recipes-header">
-            <div class="auth-card header-card full-width-card mb-4">
-                <h1 class="recipes-title mb-0">Recipes</h1>
-                <form (ngSubmit)="onSearch()" class="search-bar">
-                    <input type="text" [(ngModel)]="searchQuery" name="searchQuery" placeholder="Search..."
-                        class="form-control" required />
-                    <button type="submit" class="search-icon-button">
-                        <img src="assets/search-icon.png" alt="Search" />
-                    </button>
-                </form>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 
-
-            </div>
-
-        </div>
-
-
-
-        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-
-        <div class="meal-grid">
-            <div class="meal-card" *ngFor="let meal of meals" (click)="goToRecipeDetails(meal.idMeal)">
-                <img [src]="meal.strMealThumb" alt="{{ meal.strMeal }}" />
-                <h3 class="meal-title">{{ meal.strMeal }}</h3>
-                <p class="meal-description">{{ meal.strCategory }} | {{ meal.strArea }}</p>
-            </div>
-        </div>
-
-        <div class="recipes-footer">
-            <div class="auth-card footer-card">
-
-                <p class="powered">Powered by TheMealDB</p>
-
-            </div>
-        </div>
+    <div class="meal-grid">
+      <div
+        class="meal-card"
+        *ngFor="let meal of meals"
+        (click)="goToRecipeDetails(meal.idMeal)"
+      >
+        <img [src]="meal.strMealThumb" alt="{{ meal.strMeal }}" />
+        <h3 class="meal-title">{{ meal.strMeal }}</h3>
+        <p class="meal-description">
+          {{ meal.strCategory }} | {{ meal.strArea }}
+        </p>
+      </div>
     </div>
+
+    <div class="recipes-footer">
+      <div class="auth-card footer-card">
+        <p class="powered">Powered by TheMealDB</p>
+      </div>
+    </div>
+  </div>
 </div>

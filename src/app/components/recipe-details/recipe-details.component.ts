@@ -173,4 +173,8 @@ export class RecipeDetailsComponent {
       )
     );
   }
+
+  isLoggedIn(): boolean {
+    return this.auth.isLoggedIn();
+  }
 }
