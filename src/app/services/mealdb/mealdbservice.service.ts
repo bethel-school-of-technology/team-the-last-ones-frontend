@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Meal } from '../models/meal';
+import { Meal } from '../../models/meal';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 

@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/user.service';
+import { AuthorizationService } from 'src/app/services/authorization/authorization.service';
 
 @Component({
   selector: 'app-login',
@@ -9,12 +9,13 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class LoginComponent {
 
-  username: string = '';
+  // username: string = '';
   password: string = '';
   email: string = ''; // Added email field for the login form
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private authService: AuthorizationService, private router: Router) { }
 
+  ngOnInt(): void{}
 
   onSubmit() {
     this.login();
@@ -24,7 +25,8 @@ export class LoginComponent {
 
   login() {
 
-    if (!this.username || !this.password || !this.email) {
+    // !this.username ||
+    if ( !this.password || !this.email) {
       alert('Please fill in all fields.');
       return;
     }
@@ -32,11 +34,11 @@ export class LoginComponent {
 
 
     // Call the user service to log in
-    this.userService.login(this.username, this.password).subscribe({
+    this.authService.login(this.email, this.password).subscribe({
       next: (response) => {
         // Handle successful login
         console.log('Login successful:', response);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/recipes']);
       },
       error: (error) => {
         // Handle login error

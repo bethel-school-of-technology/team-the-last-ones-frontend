@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from 'src/app/models/user';
+import { AuthorizationService } from 'src/app/services/authorization/authorization.service';
 
 
 @Component({
@@ -9,35 +11,40 @@ import { Router } from '@angular/router';
 })
 export class SignUpComponent {
 
-  username: string = '';
-  email: string = '';
-  password: string = '';
 
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthorizationService) { }
 
+  newUser: User = new User("", "", "", 0);
+
+  ngOnInit(): void {}
+  
   signUp() {
     // Basic validation
-    if (!this.username || !this.email || !this.password) {
+    if (!this.newUser.userName || !this.newUser.email || !this.newUser.password) {
       alert('Please fill in all fields.');
       return;
     }
 
     // backend API call can be made here to register the user
 
-    // Reset form fields after submission
-    this.username = '';
-    this.email = '';
-    this.password = '';
+    this.authService.registerUser(this.newUser).subscribe({ next: (response) =>{
+      window.alert("You have successfully registered");
+      this.router.navigate(['/login']);
+    }, error: (error) => {
+      console.error('failed to register:', error);
+      alert('failed to register account');
 
+    }
+  })
   }
 
   goToLogin() {
     this.router.navigate(['/login']);
   }
 
+
   goToRecipes() {
     this.router.navigate(['/recipes']);
   }
-
 }

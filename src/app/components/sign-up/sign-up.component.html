@@ -5,11 +5,11 @@
 
         <form (ngSubmit)="signUp()" #form="ngForm" class="auth-form">
 
-            <input type="username" [(ngModel)]="username" name="username" placeholder="USERNAME" required />
+            <input type="username" [(ngModel)]="newUser.userName" name="username" placeholder="USERNAME" required />
 
-            <input type="email" [(ngModel)]="email" name="email" placeholder="EMAIL" required />
+            <input type="email" [(ngModel)]="newUser.email" name="email" placeholder="EMAIL" required />
 
-            <input type="password" [(ngModel)]="password" name="password" placeholder="PASSWORD" required />
+            <input type="password" [(ngModel)]="newUser.password" name="password" placeholder="PASSWORD" required />
 
             <button type="submit">Sign up</button>
 

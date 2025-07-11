@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MealDbService } from 'src/app/services/mealdbservice.service';
+import { MealDbService } from 'src/app/services/mealdb/mealdbservice.service';
 import { Meal } from 'src/app/models/meal';
 import { Router } from '@angular/router';
 
