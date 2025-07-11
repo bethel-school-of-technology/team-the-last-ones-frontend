@@ -43,4 +43,8 @@ export class SignUpComponent {
     this.router.navigate(['/login']);
   }
 
+
+  goToRecipes() {
+    this.router.navigate(['/recipes']);
+  }
 }
