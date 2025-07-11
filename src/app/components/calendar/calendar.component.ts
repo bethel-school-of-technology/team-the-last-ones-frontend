@@ -168,24 +168,9 @@ export class CalendarComponent implements OnInit {
     this.router.navigateByUrl('/recipes');
   }
 
-  // removeMeal(day: Day, type: string | undefined): void {
-  //   if (type === 'Breakfast') {
-  //     if (day.Breakfast?.mealsPlanId != null) {
-  //       this.mpService
-  //         .DeleteMealPlanByMealsId(day.Breakfast.mealsPlanId)
-  //         .subscribe({});
-  //     }
-  //     day.Breakfast = null;
-  //   }
-
-  //   if (type === 'Lunch') {
-  //     day.Lunch = null;
-  //   }
-
-  //   if (type === 'Dinner') {
-  //     day.Dinner = null;
-  //   }
-  // }
+  goToRecipe(recipeId: number | undefined): void {
+    if (recipeId != null) this.router.navigateByUrl(`/recipes/${recipeId}`);
+  }
 
   removeMeal(day: Day, type: string | undefined): void {
     console.log(day.Breakfast?.mealsPlanId);
