@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../../models/user';
 import { tap } from 'rxjs';
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -48,5 +48,13 @@ export class AuthorizationService {
       return parseInt(decoded.sub);
     }
     return -1;
+  }
+
+  logOut(): void {
+    localStorage.removeItem(this.tokenKey);
+  }
+
+  isLoggedIn(): boolean {
+    return this.GetToken() != null;
   }
 }
