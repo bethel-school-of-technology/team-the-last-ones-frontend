@@ -22,15 +22,10 @@ import { ProfileComponent } from './components/profile/profile.component';
     RecipeComponent,
     CalendarComponent,
     RecipeDetailsComponent,
-    ProfileComponent
+    ProfileComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule
-  ],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -3,6 +3,7 @@ import { MealDbService } from 'src/app/services/mealdb/mealdbservice.service';
 import { Meal } from 'src/app/models/meal';
 import { Router } from '@angular/router';
 import { AuthorizationService } from 'src/app/services/authorization/authorization.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-recipe',

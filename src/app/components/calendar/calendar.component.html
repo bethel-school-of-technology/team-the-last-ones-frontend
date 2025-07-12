@@ -3,6 +3,7 @@
     <div class="calendar-header-bar">
       <div class="icon-button-group">
         <button class="recipe-button" (click)="goToRecipes()">Recipes</button>
+        <button class="recipe-button" (click)="logOut()">Logout</button>
         <a routerLink="/profile" class="icon-button">
           <img src="assets/profile-icon.png" alt="Profile" />
         </a>
@@ -20,7 +21,7 @@
         <div class="card shadow-sm h-100 calendar-day-card">
           <div class="card-header calendar-card-header">
             <span>{{ day.label }}</span>
-            <button class="btn plus-button">
+            <button class="btn plus-button" (click)="goToRecipes()">
               <i class="bi bi-plus-lg custom-plus-icon"></i>
             </button>
           </div>
@@ -32,8 +33,11 @@
               <p class="text-muted mb-2">Add meals for the day</p>
             </div>
 
-            <div *ngIf="!day.isDayEmpty()">
-              <div *ngFor="let meal of day.getMeals()">
+            <ng-container *ngIf="!day.isDayEmpty()">
+              <div
+                *ngFor="let meal of day.getMeals()"
+                (click)="goToRecipe(meal.plan?.idMeal)"
+              >
                 <div
                   *ngIf="meal.plan?.thumb"
                   class="d-flex align-items-center justify-content-between mb-2 recipe-clickable"
@@ -56,7 +60,7 @@
                   </button>
                 </div>
               </div>
-            </div>
+            </ng-container>
           </div>
         </div>
       </div>
